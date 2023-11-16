@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 function Header({insideDashboard}) {
   return (
-    <Navbar className="bg-info">
+    <Navbar className="bg-black">
         <Container>
           <Navbar.Brand >
 

@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import ProjectCard from '../Components/ProjectCard'
 import { Link } from 'react-router-dom'
 
 function Home() {
+  const [loggedin,setLogedin]=useState(false)
+  useEffect(()=>{
+    if(sessionStorage.getItem("token")){
+    setLogedin(true)
+    }else{
+      setLogedin(false)
+    }
+  })
   return (
     <>
     {/* landing section */}
@@ -12,7 +20,13 @@ function Home() {
           <Col sm={12} md={6}>
             <h1 style={{fontSize:'80px'}} className='fw-bolder text-light'>Project Fair</h1>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse atque, quaerat laborum excepturi error provident officia doloremque id beatae perferendis maxime vitae qui? Iure deleniti voluptatem eos labore doloremque qui!</p>
-            <button className='btn btn-primary'><Link style={{textDecoration:"none",color:"white"}} to={'/login'}>Start to Explore</Link></button>
+
+
+            {loggedin?
+              <button className='btn btn-primary'><Link style={{textDecoration:"none",color:"white"}} to={'/dashboard'}>Manage your projects</Link></button>:
+              <button className='btn btn-primary'><Link style={{textDecoration:"none",color:"white"}} to={'/login'}>Start to Explore</Link></button>
+       }
+
           </Col>
           <Col sm={12} md={6}>
             <img style={{marginTop:'100px'}} src="https://media3.giphy.com/media/qgQUggAC3Pfv687qPC/giphy.gif" alt="" className='w-75' />
