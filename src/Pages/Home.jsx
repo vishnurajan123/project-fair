@@ -15,7 +15,7 @@ function Home() {
   return (
     <>
     {/* landing section */}
-      <div style={{width:'100%',height:'100vh'}} className='container-fluid rounded bg-info'>
+      <div style={{width:'100%',height:'100vh'}} className='container-fluid rounded bg-black'>
         <Row className='align-items-center p-5'>
           <Col sm={12} md={6}>
             <h1 style={{fontSize:'80px'}} className='fw-bolder text-light'>Project Fair</h1>

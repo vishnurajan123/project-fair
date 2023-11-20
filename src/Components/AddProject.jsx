@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { toast } from 'react-toastify';
 import { addProjectAPI } from '../Services/allAPI';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function AddProject() {
   const [show, setShow] = useState(false);
@@ -41,46 +42,43 @@ useEffect(()=>{
   }
 },[])
 
-  const handleAdd=async(e)=>{
-    e.preventDefault()
-    const {title,languages,overview,projectImage,github,website}=projectDetails
-    if(!title || !languages || !overview || !projectImage || !github || !website ){
-      toast.info("Please fill the form completely ...!")
+const handleAdd=async(e)=>{
+  e.preventDefault()
+  const {title,languages,overview,projectImage,github,website}=projectDetails
+  if(!title || !languages ||!overview || !projectImage ||!github ||!website){
+    toast.info("please fill the form completely!!!")
+  }else{
+    const reqBody=new FormData()
+    reqBody.append("title",title)
+    reqBody.append("languages",languages)
+    reqBody.append("overview",overview)
+    reqBody.append("projectImage",projectImage)
+    reqBody.append("github",github)
+    reqBody.append("website",website)
+
+    if(token){
+     const reqHeader={
+      "Content-Type":"multipart/form-data",
+      "Authorization":`Bearer ${token}`
     }
-    else{
-      const reqBody=new FormData()
-      reqBody.append("title",title)
-      reqBody.append("languages",languages)
-      reqBody.append("overview",overview)
-      reqBody.append("projectImage",projectImage)
-      reqBody.append("github",github)
-      reqBody.append("website",website)
-if(token){
-    reqHeader={
-    "Content-Type":"multipart/form-data",
-    "Authorization":`Bearer ${token}`
-  }
-
-}
-
-
-const result=await addProjectAPI(reqBody,reqHeader)
-if(result.status===200){
-  console.log(result.data);
-}
-else{
-  console.log(result);
-  console.log(result.res);
-}
-
-
-
-
-
+    
+    const result =await addProjectAPI(reqBody,reqHeader)
+    if(result.status==200){
+      console.log(result.data);
+      handleClose()
+      alert("Project add")
+     
+    }else{
+      console.log(result);
+      toast.warning(result.response.data);
 
     }
+
   }
 
+  }
+}
+console.log(token);
   return (
     <>
       <Button variant="primary" onClick={handleShow}>
@@ -135,9 +133,10 @@ else{
           <Button variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="primary">Add</Button>
+          <Button onClick={handleAdd} variant="primary">Add</Button>
         </Modal.Footer>
       </Modal>
+      < ToastContainer position='top-right' theme='colored'/>
     </>
   );
 }
