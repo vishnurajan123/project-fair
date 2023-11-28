@@ -1,13 +1,15 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Form } from 'react-bootstrap'
 import { loginAPI, registerAPI } from '../Services/allAPI'
 import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
+import { tokenAutherizationContext } from '../Contexts/TokenAuth';
 
 
 
 function Auth({register}) {
+  const {isAutherized,setIsAutherized}=useContext(tokenAutherizationContext)
 const [userdata,setUserdata]=useState({
   username:"",
   email:"",
@@ -57,6 +59,7 @@ const handleLogin=async (e)=>{
     if(result.status===200){
 sessionStorage.setItem("existingUser",JSON.stringify(result.data.existingUser))
 sessionStorage.setItem("token",result.data.token)
+setIsAutherized(true)
 
       setUserdata({
         email:"",

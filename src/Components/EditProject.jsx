@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,useContext } from 'react'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { BASE_URL } from '../Services/baseURL';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { editProjectsAPI } from '../Services/allAPI';
+import { editProjectResponseContext } from '../Contexts/ContextShare';
+
 
 function EditProject({project}) {
+  const {editProjectResponse,setEditProjectResponse} = useContext(editProjectResponseContext)
+
     const [projectDetails,setProjectDetails]=useState({
        id:project._id, title:project.title,languages:project.languages,overview:project.overview,github:project.github,website:project.website,projectImage:""
       })
@@ -56,7 +60,8 @@ function EditProject({project}) {
             if(result.status===200){
               handleClose()
               // pass response to my projects
-              
+              setEditProjectResponse(result.data)
+
             }
             else{
               console.log(result);
@@ -73,6 +78,8 @@ function EditProject({project}) {
             if(result.status===200){
               handleClose()
               // pass response to my projects
+              setEditProjectResponse(result.data)
+
             }
             else{
               console.log(result);
@@ -140,7 +147,7 @@ function EditProject({project}) {
           <Button variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
-          <Button onClick={handleUpdate}  variant="primary">Add</Button>
+          <Button onClick={handleUpdate}  variant="primary">Update</Button>
         </Modal.Footer>
       </Modal>
       < ToastContainer position='top-right' theme='colored'/>

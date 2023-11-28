@@ -3,10 +3,12 @@ import AddProject from './AddProject'
 import { deleteProjectAPI, userProjectsAPI } from '../Services/allAPI'
 import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
-import { addProjectResponseContext } from '../Contexts/ContextShare';
+import { addProjectResponseContext,editProjectResponseContext } from '../Contexts/ContextShare';
 import EditProject from './EditProject';
 function MyProject() {
     const {addProjectResponse,setAddprojectResponse}=useContext(addProjectResponseContext)
+    const {editProjectResponse,setEditProjectResponse} = useContext(editProjectResponseContext)
+
     const [userprojects,setUserprojects]=useState([])
     const getUserUserprojects=async ()=>{
         if(sessionStorage.getItem("token")){
@@ -29,7 +31,7 @@ function MyProject() {
     }
     useEffect(()=>{
         getUserUserprojects()
-    },[addProjectResponse])
+    },[addProjectResponse,editProjectResponse])
     // console.log(userprojects);
 
     const handleDelete=async (id)=>{
@@ -63,7 +65,7 @@ function MyProject() {
                 <div className='ms-auto'>
                     <EditProject project={project} />
                     <a href={`${project.github}`} target='_blank' className='btn'> <i class="fa-brands fa-github fa-2x"></i></a>
-                    <button className='btn'> <i class="fa-solid fa-trash fa-2x"></i></button>
+                    <button onClick={()=>handleDelete(project._id)} className='btn'> <i class="fa-solid fa-trash fa-2x"></i></button>
 
                 </div>
 
